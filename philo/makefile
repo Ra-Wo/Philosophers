@@ -8,7 +8,9 @@ SRCS	=	./philo.c				\
 			./utils/mutex.c			\
 			./utils/pthread_wait.c	\
 			./utils/connect_philo_with_vars.c \
-			./utils/ft_print.c
+			./utils/ft_print.c	\
+			./utils/get_time.c	\
+			./utils/check_philo_isdeath.c
 
 OBJS	=	$(SRCS:.c=.o)
 

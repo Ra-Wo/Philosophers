@@ -6,7 +6,7 @@
 /*   By: roudouch <roudouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 15:34:54 by roudouch          #+#    #+#             */
-/*   Updated: 2022/02/15 14:35:46 by roudouch         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:43:25 by roudouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ void	destroy_mutex(t_philo *philo);
 void	pthread_wait(t_philo *philo);
 void	connect_philo_with_vars(t_philo *philo, t_vars *vars);
 void	ft_print(char *str, long time, int id, pthread_mutex_t *pen);
+long	get_time(void);
+void	check_philo_dead(t_philo *philo);
 
 #endif

@@ -6,19 +6,11 @@
 /*   By: roudouch <roudouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 16:33:44 by roudouch          #+#    #+#             */
-/*   Updated: 2022/02/15 15:48:14 by roudouch         ###   ########.fr       */
+/*   Updated: 2022/02/15 18:00:43 by roudouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-long	get_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
 
 void	philo_actions(t_philo *philosopher)
 {
@@ -57,30 +49,20 @@ static void	*philosopher(void *philo_info)
 	return (NULL);
 }
 
-void	check_philo_dead(t_philo *philo)
+int	create_philos(t_vars *vars, t_philo *philo)
 {
 	int	x;
 
 	x = 0;
-	while (x <= philo[x].vars->number_of_philosophers)
+	while (x < vars->number_of_philosophers)
 	{
-		if (philo[x].vars->number_of_philosophers - 1 == x)
-		{
-			x = 0;
-		}
-		if ((get_time() - philo[x].vars->start) - philo[x].last_time_eat
-			>= philo[x].last_time_eat + philo[x].vars->time_to_die)
-		{
-			philo[x].vars->dead = 1;
-			ft_print("%ld %d died\n", (get_time() - philo[x].vars->start),
-				philo[x].id, &philo[x].vars->t_pen);
-			pthread_mutex_lock(&philo[x].vars->t_pen);
-			break ;
-		}
-		if (philo[x].vars->exit == philo[x].vars->number_of_philosophers)
-			break ;
+		philo[x].id = x + 1;
+		usleep(100);
+		if (pthread_create(&philo[x].t_id, NULL, philosopher, &philo[x]) != 0)
+			return (-1);
 		x++;
-	}	
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -98,15 +80,8 @@ int	main(int argc, char **argv)
 	vars.start = get_time();
 	connect_philo_with_vars(philo, &vars);
 	init_mutex(philo);
-	x = 0;
-	while (x < vars.number_of_philosophers)
-	{
-		philo[x].id = x + 1;
-		philo[x].next_fork = &philo[x + 1].fork;
-		usleep(100);
-		pthread_create(&philo[x].t_id, NULL, philosopher, &philo[x]);
-		x++;
-	}
+	if (create_philos(&vars, philo))
+		return (printf("ERROR: can't create a thread\n"), 1);
 	check_philo_dead(philo);
 	destroy_mutex(philo);
 	return (0);
