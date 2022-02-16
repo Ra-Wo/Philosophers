@@ -6,7 +6,7 @@
 /*   By: roudouch <roudouch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:42:04 by roudouch          #+#    #+#             */
-/*   Updated: 2022/02/15 18:00:18 by roudouch         ###   ########.fr       */
+/*   Updated: 2022/02/15 19:11:31 by roudouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	check_philo_dead(t_philo *philo)
 	int	x;
 
 	x = 0;
-
 	while (x < philo[0].vars->number_of_philosophers)
 	{
 		if ((get_time() - philo[x].vars->start) - philo[x].last_time_eat
